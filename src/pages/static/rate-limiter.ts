@@ -6,7 +6,6 @@ export default class limiter {
     //use push() and shift(), so its backwards
     private queue: callback[] = [];
     private dequeing: boolean = false;
-    private execsThisMinute: number = 0;
     private timeBetween: number;
     constructor(execs: number, seconds: number) {
         this.execs = execs;
