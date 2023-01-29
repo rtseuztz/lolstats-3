@@ -1,7 +1,7 @@
 import { sign } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import IRiot from '../IRiot';
-import { buildQuery, err, riotFetch } from '../RiotFunctions';
+import IRiot from '../riot/IRiot';
+import { buildQuery, err, riotFetch } from '../riot/RiotFunctions';
 const key: string = process.env.API_KEY || "";
 type Data = {
     name: string
@@ -38,11 +38,13 @@ export default async function handler(
 }
 
 export class summoner implements IRiot {
-    query = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{0}"
+    query = "https://{REGION}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{0}"
     values: string[]
-    constructor(values: string[]) {
+    region: string
+    constructor(values: string[], region: string) {
         this.values = values;
-        this.query = buildQuery(this.query, this.values);
+        this.region = region
+        this.query = buildQuery(this.query, this.values, this.region);
     }
     async execute(): Promise<[any, err | null]> {
         const userRes = await riotFetch(this.query)

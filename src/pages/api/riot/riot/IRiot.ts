@@ -6,10 +6,10 @@ export default interface IRiot {
      */
     query: string
     values: string[]
+    readonly region: string
     /**
      * 
      * @returns The JSON of the object with a null error, or a null JSON with an error object.
      */
     execute: () => Promise<[any, err | null]>;
 }
-
