@@ -1,3 +1,4 @@
+import limiter from "@/pages/api/limiters/rate-limiter";
 import { err } from "./RiotFunctions";
 
 export default interface IRiot {

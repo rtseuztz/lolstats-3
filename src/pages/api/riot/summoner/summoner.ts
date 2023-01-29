@@ -2,6 +2,7 @@ import { sign } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import IRiot from '../riot/IRiot';
 import { buildQuery, err, riotFetch } from '../riot/RiotFunctions';
+import summonerLimiter from '../../limiters/summoner';
 const key: string = process.env.API_KEY || "";
 type Data = {
     name: string
@@ -47,6 +48,7 @@ export class summoner implements IRiot {
         this.query = buildQuery(this.query, this.values, this.region);
     }
     async execute(): Promise<[any, err | null]> {
+        //summonerLimiter.addFunction(async () => riotFetch(this.query))
         const userRes = await riotFetch(this.query)
         const user: any = await userRes.json()
         if (!user || user.status_code)

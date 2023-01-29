@@ -1,4 +1,5 @@
-import { writeFileSync } from 'fs'
+const fs = require('fs');
+const writeFileSync = fs.writeFileSync;
 async function refresh() {
     const version = await getVersion();
     const promises = [];
@@ -19,13 +20,11 @@ async function getChampions(version) {
     const championsList = Object.keys(championsJSON.data)
     // Converts the array to an object with the ... (spread)
     const championsObj = { ...championsList }
-    await writeFileSync("./champions.json", JSON.stringify(championsObj))
+    await writeFileSync("../../../../app/data/champions.json", JSON.stringify(championsObj))
 }
 async function getItems(version) {
     const itemsURL = `http://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/item.json`
     const itemsJSON = await (await fetch(itemsURL)).json()
-    await writeFileSync("./items.json", JSON.stringify(itemsJSON))
+    await writeFileSync("../../../../app/data/items.json", JSON.stringify(itemsJSON))
 }
 refresh();
-export default {}
-export { getVersion, getChampions }

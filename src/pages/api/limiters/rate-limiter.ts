@@ -58,3 +58,33 @@ export default class limiter {
 
     }
 }
+
+/**
+ * - Create with execs per min
+ * - be able to add in a function that will return
+ */
+// export class RateLimiter {
+//     private execs: number;
+//     private seconds: number;
+//     //use push() and shift(), so its backwards
+//     private queue: callback[] = [];
+//     private dequeing: boolean = false;
+//     private timeBetween: number;
+//     constructor(execs: number, seconds: number) {
+//         this.execs = execs;
+//         this.seconds = seconds
+//         this.timeBetween = 1000 * seconds / execs
+//     }
+//     private readonly sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+//     /**
+//      * adds a function and returns the value as a promise
+//      */
+//     addFunction(func: () => any): Promise<any> {
+//         var funcObj = {
+//             func:
+//         }
+//         this.queue.push(func);
+//         return
+//     }
+// }

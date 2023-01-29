@@ -1,6 +1,6 @@
 
 export function buildQuery(query: string, values: string[], region: string): string {
-    query.replace("{REGION}", region)
+    query = query.replace("{REGION}", region)
     values.forEach((str, index) => {
         query = query.replace(`{${index}}`, str)
     })
