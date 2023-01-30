@@ -1,4 +1,3 @@
-
 export function buildQuery(query: string, values: string[], region: string): string {
     query = query.replace("{REGION}", region)
     values.forEach((str, index) => {

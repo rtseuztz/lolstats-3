@@ -1,8 +1,8 @@
 import { sign } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import IRiot from '../riot/IRiot';
 import { buildQuery, err, riotFetch } from '../riot/RiotFunctions';
 import summonerLimiter from '../../limiters/summoner';
+import Riot from '../riot/IRiot';
 const key: string = process.env.API_KEY || "";
 type Data = {
     name: string
@@ -37,23 +37,31 @@ export default async function handler(
     res.status(200).json(user)
 
 }
-
-export class summoner implements IRiot {
+/**
+ * values: [summonerName]
+ */
+export class summoner extends Riot {
     query = "https://{REGION}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{0}"
-    values: string[]
-    region: string
+    readonly functionAdder = () => summonerLimiter.addFunction
     constructor(values: string[], region: string) {
-        this.values = values;
-        this.region = region
+        super(values, region)
         this.query = buildQuery(this.query, this.values, this.region);
     }
-    async execute(): Promise<[any, err | null]> {
-        //summonerLimiter.addFunction(async () => riotFetch(this.query))
-        const userRes = await riotFetch(this.query)
-        const user: any = await userRes.json()
-        if (!user || user.status_code)
-            return [null, user as err]
-        else return [user, null]
+    async execute(): Promise<[summonerT, err | null]> {
+        var [res, err] = await super.execute()
+        if (err) {
+            return [{
+                accountId: "",
+                id: "",
+                name: "",
+                profileIconId: 0,
+                puuid: "",
+                revisionDate: 0,
+                summonerLevel: 0
+            }, err]
+        } else {
+            return [res as summonerT, err]
+        }
     }
 
 }

@@ -1,5 +1,5 @@
 type callback = () => any
-export default class limiter {
+export class limiter {
 
     private execs: number;
     private seconds: number;
@@ -88,3 +88,24 @@ export default class limiter {
 //         return
 //     }
 // }
+
+export default class RateLimiter {
+
+    private readonly requests: number
+    private readonly seconds: number
+    private readonly millisecondsPerFunction: number;
+    private functionsQueued = 0;
+    static sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    constructor(requests: number, seconds: number) {
+        this.requests = requests
+        this.seconds = seconds
+        this.millisecondsPerFunction = (seconds / requests) * 1000
+    }
+    async addFunction(prom: Promise<Response>): Promise<Response> {
+        this.functionsQueued++;
+        console.log(this);
+        await RateLimiter.sleep((this.functionsQueued - 1) * this.millisecondsPerFunction);
+        this.functionsQueued--;
+        return prom;
+    }
+}

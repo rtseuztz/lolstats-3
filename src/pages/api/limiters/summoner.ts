@@ -1,5 +1,5 @@
 import limiter from "./rate-limiter";
 
-const summonerLimiter = new limiter(1, 1)
+const summonerLimiter = new limiter(1600, 60)
 
 export default summonerLimiter
