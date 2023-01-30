@@ -19,30 +19,12 @@ type summonerT = {
 type reqData = {
     name: string
 }
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<summonerT>
-) {
-    console.log(key);
-    const { name } = req.query
-    if (!name) {
-        res.status(404);
-        return;
-    }
-    console.log(req.body)
-    //check db first, else pull from stuff
-    const queryString = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + name + "?api_key=" + key;
-    const userRes = await fetch(queryString)
-    const user: summonerT = await userRes.json()
-    res.status(200).json(user)
-
-}
 /**
  * values: [summonerName]
  */
 export class summoner extends Riot {
     query = "https://{REGION}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{0}"
-    readonly functionAdder = () => summonerLimiter.addFunction
+    readonly promiseRateLimiter = summonerLimiter
     constructor(values: string[], region: string) {
         super(values, region)
         this.query = buildQuery(this.query, this.values, this.region);
@@ -63,5 +45,28 @@ export class summoner extends Riot {
             return [res as summonerT, err]
         }
     }
+}
+
+
+
+
+
+
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<summonerT>
+) {
+    console.log(key);
+    const { name } = req.query
+    if (!name) {
+        res.status(404);
+        return;
+    }
+    console.log(req.body)
+    //check db first, else pull from stuff
+    const queryString = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + name + "?api_key=" + key;
+    const userRes = await fetch(queryString)
+    const user: summonerT = await userRes.json()
+    res.status(200).json(user)
 
 }

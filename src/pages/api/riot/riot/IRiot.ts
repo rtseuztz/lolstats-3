@@ -9,7 +9,7 @@ export default abstract class Riot {
     query: string = ""
     protected readonly values: string[]
     protected readonly region: string
-    protected readonly functionAdder: Function = summonerLimiter.addFunction
+    protected readonly promiseRateLimiter: RateLimiter = summonerLimiter
     constructor(values: string[], region: string) {
         this.values = values;
         this.region = region
@@ -18,8 +18,8 @@ export default abstract class Riot {
      * 
      * @returns The JSON of the object with a null error, or a null JSON with an error object.
      */
-    async execute(): Promise<[{}, err | null]> {
-        const userRes = await this.functionAdder(riotFetch(this.query))
+    async execute(): Promise<[any, err | null]> {
+        const userRes = await this.promiseRateLimiter.addFunction(riotFetch(this.query))
         const res: any = await userRes.json()
         if (!res || res.status_code)
             return [{}, res as err]
