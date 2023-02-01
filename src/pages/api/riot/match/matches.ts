@@ -2,10 +2,8 @@ import matchesLimiter from "../../limiters/matches";
 import Riot from "../riot/IRiot";
 import { buildQuery, err } from "../riot/RiotFunctions";
 
-/**
- * Values: [matchID]
- */
 
+/** Values: [matchID] */
 export default class match extends Riot {
     query = `https://{REGION}.api.riotgames.com/lol/match/v5/matches/{0}`
     readonly promiseRateLimiter = matchesLimiter
@@ -13,12 +11,22 @@ export default class match extends Riot {
         super(values, region)
         this.query = buildQuery(this.query, this.values, this.region);
     }
-    async execute(): Promise<[matchT | null, err | null]> {
+    /**
+     * @returns Retrieves a list of 10 participants
+     */
+    async execute(): Promise<[Participant[] | null, err | null]> {
         var [res, err] = await super.execute()
         if (err) {
             return [null, err]
         } else {
-            return [res as matchT, err]
+            const match = res as matchT
+            const participants = match.info.participants
+            participants.forEach((p: Participant) => {
+                delete p.challenges
+                delete p.perks
+
+            })
+            return [participants as Participant[], err]
         }
     }
 }
@@ -59,7 +67,8 @@ export interface Participant {
     baronKills: number
     basicPings: number
     bountyLevel: number
-    challenges: Challenges
+    cringe: boolean
+    challenges?: Challenges
     champExperience: number
     champLevel: number
     championId: number
@@ -121,7 +130,7 @@ export interface Participant {
     onMyWayPings: number
     participantId: number
     pentaKills: number
-    perks: Perks
+    perks?: Perks
     physicalDamageDealt: number
     physicalDamageDealtToChampions: number
     physicalDamageTaken: number

@@ -103,8 +103,6 @@ export default class RateLimiter {
     }
     async addFunction(prom: Promise<Response>): Promise<Response> {
         this.functionsQueued++;
-        console.log(this);
-        console.log(this.functionsQueued);
         await RateLimiter.sleep((this.functionsQueued - 1) * this.millisecondsPerFunction);
         this.functionsQueued--;
         return prom;
