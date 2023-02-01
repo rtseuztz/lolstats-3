@@ -8,12 +8,16 @@ export default async function query(query: string, values: any[]): Promise<any> 
         password: "pass",
         database: 'lolstats'
     });
-    console.log(query);
+    var retVal: any = null
     try {
+        console.log(query)
         const [rows, fields] = await connection.execute(query, values)
-        return rows;
+        retVal = rows;
     } catch (e) {
-        return e;
+        retVal = e;
+    } finally {
+        await connection.end()
+        return retVal;
     }
     // values.forEach((v) => v = values.toString())
     // let conn;

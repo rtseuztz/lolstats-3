@@ -9,10 +9,10 @@ const participant = {
             [p.gameID, p.allInPings, p.assistMePings, p.assists, p.baitPings, p.baronKills, p.basicPings, p.bountyLevel, p.champExperience, p.champLevel, p.championId, p.championName, p.championTransform, p.commandPings, p.consumablesPurchased, p.damageDealtToBuildings, p.damageDealtToObjectives, p.damageDealtToTurrets, p.damageSelfMitigated, p.dangerPings, p.deaths, p.detectorWardsPlaced, p.doubleKills, p.dragonKills, p.eligibleForProgression, p.enemyMissingPings, p.enemyVisionPings, p.firstBloodAssist, p.firstBloodKill, p.firstTowerAssist, p.firstTowerKill, p.gameEndedInEarlySurrender, p.gameEndedInSurrender, p.getBackPings, p.goldEarned, p.goldSpent, p.holdPings, p.individualPosition, p.inhibitorKills, p.inhibitorTakedowns, p.inhibitorsLost, p.item0, p.item1, p.item2, p.item3, p.item4, p.item5, p.item6, p.itemsPurchased, p.killingSprees, p.kills, p.lane, p.largestCriticalStrike, p.largestKillingSpree, p.largestMultiKill, p.longestTimeSpentLiving, p.magicDamageDealt, p.magicDamageDealtToChampions, p.magicDamageTaken, p.needVisionPings, p.neutralMinionsKilled, p.nexusKills, p.nexusLost, p.nexusTakedowns, p.objectivesStolen, p.objectivesStolenAssists, p.onMyWayPings, p.participantId, p.pentaKills, p.physicalDamageDealt, p.physicalDamageDealtToChampions, p.physicalDamageTaken, p.profileIcon, p.pushPings, p.puuid, p.quadraKills, p.riotIdName, p.riotIdTagline, p.role, p.sightWardsBoughtInGame, p.spell1Casts, p.spell2Casts, p.spell3Casts, p.spell4Casts, p.summoner1Casts, p.summoner1Id, p.summoner2Casts, p.summoner2Id, p.summonerId, p.summonerLevel, p.summonerName, p.teamEarlySurrendered, p.teamId, p.teamPosition, p.timeCCingOthers, p.timePlayed, p.totalDamageDealt, p.totalDamageDealtToChampions, p.totalDamageShieldedOnTeammates, p.totalDamageTaken, p.totalHeal, p.totalHealsOnTeammates, p.totalMinionsKilled, p.totalTimeCCDealt, p.totalTimeSpentDead, p.totalUnitsHealed, p.tripleKills, p.trueDamageDealt, p.trueDamageDealtToChampions, p.trueDamageTaken, p.turretKills, p.turretTakedowns, p.turretsLost, p.unrealKills, p.visionClearedPings, p.visionScore, p.visionWardsBoughtInGame, p.wardsKilled, p.wardsPlaced, p.win])
         return retVal
     },
-    get: async (where: string) => {
+    getByPUUID: async (puuid: string) => {
         const retVal = await query(`SELECT * FROM player
-        WHERE ?
-        `, [where])
+        WHERE puuid = ?`,
+            [puuid])
         return retVal
     }
 }
