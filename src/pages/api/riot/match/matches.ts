@@ -24,6 +24,7 @@ export default class match extends Riot {
             participants.forEach((p: Participant) => {
                 delete p.challenges
                 delete p.perks
+                p.gameID = match.info.gameId
 
             })
             return [participants as Participant[], err]
@@ -60,6 +61,7 @@ export interface Info {
 }
 
 export interface Participant {
+    gameID: number,
     allInPings: number
     assistMePings: number
     assists: number
