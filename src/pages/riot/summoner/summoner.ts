@@ -4,10 +4,8 @@ import { buildQuery, err, riotFetch } from '../riot/RiotFunctions';
 import summonerLimiter from '../../limiters/summoner';
 import Riot from '../riot/IRiot';
 const key: string = process.env.API_KEY || "";
-type Data = {
-    name: string
-}
-type summonerT = {
+
+export type summonerT = {
     accountId: string,
     id: string,
     name: string,
@@ -16,9 +14,7 @@ type summonerT = {
     revisionDate: number,
     summonerLevel: number,
 }
-type reqData = {
-    name: string
-}
+
 /**
  * values: [summonerName]
  */

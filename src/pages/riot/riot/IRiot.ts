@@ -1,6 +1,6 @@
-import limiter from "@/pages/api/limiters/rate-limiter";
+import limiter from "@/pages/limiters/rate-limiter";
 import { buildQuery, err, riotFetch } from "./RiotFunctions";
-import RateLimiter from "@/pages/api/limiters/rate-limiter";
+import RateLimiter from "@/pages/limiters/rate-limiter";
 import summonerLimiter from "../../limiters/summoner";
 export default abstract class Riot {
     /**

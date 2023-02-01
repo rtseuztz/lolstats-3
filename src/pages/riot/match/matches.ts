@@ -1,4 +1,5 @@
 import matchesLimiter from "../../limiters/matches";
+import participant from "../../db/participant";
 import Riot from "../riot/IRiot";
 import { buildQuery, err } from "../riot/RiotFunctions";
 
@@ -24,8 +25,10 @@ export default class match extends Riot {
             participants.forEach((p: Participant) => {
                 delete p.challenges
                 delete p.perks
-                p.gameID = match.info.gameId
-
+                p.gameType = match.info.gameType.toString()
+                p.startTime = match.info.gameCreation.toString()
+                p.gameID = match.info.gameId.toString()
+                participant.post(p);
             })
             return [participants as Participant[], err]
         }
@@ -61,7 +64,9 @@ export interface Info {
 }
 
 export interface Participant {
-    gameID: number,
+    gameID: string
+    startTime: string
+    gameType: string
     allInPings: number
     assistMePings: number
     assists: number

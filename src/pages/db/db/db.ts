@@ -10,7 +10,6 @@ export default async function query(query: string, values: any[]): Promise<any> 
     });
     var retVal: any = null
     try {
-        console.log(query)
         const [rows, fields] = await connection.execute(query, values)
         retVal = rows;
     } catch (e) {

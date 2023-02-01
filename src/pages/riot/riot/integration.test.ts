@@ -26,12 +26,9 @@ describe('Backend integration', () => {
         expect(err3).toBeNull();
         expect(participants).toBeTruthy();
         const participantObj = participants![0]
-        //upload game
-        const postRes = await participant.post(participantObj)
 
         //get game
         const game = await participant.getByPUUID(participantObj.puuid)
         expect(game).toBeTruthy();
-        console.log(game);
     })
 })
