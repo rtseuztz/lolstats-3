@@ -10,8 +10,7 @@ const participant = {
         return retVal
     },
     getByPUUID: async (puuid: string) => {
-        const retVal = await query(`SELECT * FROM player
-        WHERE puuid = ?`,
+        const retVal = await query(`SELECT * FROM player WHERE puuid = ?`,
             [puuid])
         return retVal as Participant[]
     }

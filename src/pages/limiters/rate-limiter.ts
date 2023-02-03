@@ -32,7 +32,6 @@ export class limiter {
             const start = new Date().getTime()
             while (execsThisMinute) {
                 const callback: any = this.queue.shift()
-                console.log("waiting")
                 if (callback) {
                     // const resp = await fetch(obj.query);
                     // const game = await resp.json();
@@ -42,15 +41,11 @@ export class limiter {
                 } else {
                     break;
                 }
-                console.log("ran exececution, execs left is " + execsThisMinute)
                 totalExecutions++;
                 execsThisMinute--;
-                console.log("total executions is " + totalExecutions);
             }
             if (this.queue.length > 0) {
-                console.log("about to wait");
                 await this.sleep((this.seconds * 60 * 1000) - (new Date().getTime() - start));
-                console.log("Done waiting");
                 execsThisMinute = this.execs;
             }
         }

@@ -52,13 +52,11 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<summonerT>
 ) {
-    console.log(key);
     const { name } = req.query
     if (!name) {
         res.status(404);
         return;
     }
-    console.log(req.body)
     //check db first, else pull from stuff
     const queryString = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + name + "?api_key=" + key;
     const userRes = await fetch(queryString)
