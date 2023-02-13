@@ -28,8 +28,9 @@ export default class match extends Riot {
                 p.gameType = match.info.gameType.toString()
                 p.startTime = match.info.gameCreation.toString()
                 p.gameID = match.info.gameId.toString()
-                participant.post(p);
+                //participant.post(p);
             })
+            participant.postMultiple(participants)
             return [participants as Participant[], err]
         }
     }
@@ -62,7 +63,9 @@ export interface Info {
     teams: Team[]
     tournamentCode: string
 }
-
+export type Game = {
+    gameID: Participant[]
+}
 export interface Participant {
     gameID: string
     startTime: string

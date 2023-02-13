@@ -1,28 +1,19 @@
-import { Participant } from "../../riot/match/matches";
-import participant from "../../db/participant";
-import { err, SUMMONER_REGIONS } from "../../riot/riot/RiotFunctions";
+import { summonerT } from "@/pages/riot/summoner/summoner";
 import { summoner as summonerFactory } from "../../riot/summoner/summoner";
 
-export default class SummonerAPI {
+export default class ParticipantAPI {
     readonly name: string
     readonly region: string
     constructor(name: string, region: string) {
         this.name = name;
         this.region = region;
     }
-    async get(): Promise<Participant[] | null> {
+    async get(): Promise<summonerT | null> {
         const factory = new summonerFactory([this.name], this.region)
         const [summonerObj, error] = await factory.execute()
         if (error) {
             return null
         }
-        //db first then riot
-        console.log(summonerObj)
-        var pariticipations = await participant.getByPUUID(summonerObj.puuid)
-
-        pariticipations.sort((p1, p2) => {
-            return Number(p2.startTime) - Number(p1.startTime)
-        })
-        return pariticipations
+        return summonerObj
     }
 }

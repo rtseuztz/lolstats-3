@@ -8,9 +8,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const regions = Object.keys(SUMMONER_REGIONS).map((key) => {
-    return <option value={key}>{key}</option>
-  })
   return (
     <html lang="en">
       {/*

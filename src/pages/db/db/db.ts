@@ -6,7 +6,7 @@ export default async function query(query: string, values: any[]): Promise<any> 
         host: 'localhost',
         user: 'root',
         password: "pass",
-        database: 'lolstats'
+        database: 'lolstats',
     });
     var retVal: any = null
     try {
@@ -18,23 +18,33 @@ export default async function query(query: string, values: any[]): Promise<any> 
         await connection.end()
         return retVal;
     }
-    // values.forEach((v) => v = values.toString())
-    // let conn;
-    // try {
-    //     console.log("a")
-    //     const pool = mariadb.createPool({
-    //         host: 'localhost',
-    //         port: 3306,
-    //         user: 'root',
-    //         password: 'pass',
-    //         database: "lolstats",
-    //     });
-    //     conn = await pool.getConnection();
-    //     const rows = await conn.query(query, values);
-    //     return rows;
-    // } catch (err) {
-    //     throw err;
-    // } finally {
-    //     if (conn) return conn.end();
-    // }
+}
+export async function queryMultiple(queries: queryObj[]) {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: "pass",
+        database: 'lolstats',
+    });
+    var retVal: any[] = []
+    try {
+        let awaitingQueries: Promise<any>[] = []
+        queries.forEach((q: queryObj) => {
+            awaitingQueries.push(connection.execute(q.query, q.values))
+        })
+        const resolvedQueries = await Promise.all(awaitingQueries)
+        resolvedQueries.forEach((q: [rows: any, fields: any]) => {
+            retVal.push(q[0])
+        })
+    } catch (e) {
+        retVal.push(e);
+    } finally {
+        await connection.end()
+        return retVal;
+    }
+}
+
+export interface queryObj {
+    query: string
+    values: any[]
 }

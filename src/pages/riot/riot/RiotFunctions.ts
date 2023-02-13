@@ -41,3 +41,20 @@ export const MATCH_REGIONS = {
     "EUROPE": "europe",
     "OCEANIA": "sea",
 }
+export function convertSummonerRegion(region: string): string {
+    SUMMONER_REGIONS.g
+    switch (region) {
+        case SUMMONER_REGIONS["North America"]:
+        case SUMMONER_REGIONS["Brazil"]:
+        case SUMMONER_REGIONS["LA1"]:
+        case SUMMONER_REGIONS["LA2"]:
+            return "americas"
+        case SUMMONER_REGIONS["EUW1"]:
+        case SUMMONER_REGIONS["EUN1"]:
+        case SUMMONER_REGIONS["Brazil"]:
+            return "europe"
+        default:
+            return "asia"
+
+    }
+}

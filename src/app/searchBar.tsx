@@ -19,7 +19,8 @@ export default function SearchBar() {
         setName(element.value);
     }
     const regions = Object.keys(SUMMONER_REGIONS).map((key) => {
-        return <option value={SUMMONER_REGIONS[key]}>{key}</option>
+        let val = SUMMONER_REGIONS[key]
+        return <option key={val} value={val}>{key}</option>
     })
     useEffect(() => {
         setName(document.querySelector("input")?.value || "")
