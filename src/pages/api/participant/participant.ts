@@ -43,14 +43,13 @@ export default class ParticipantAPI {
                 participantsList = participantsList.concat(participants)
             }
         })
+        participantsList = uniqWith(participantsList, (a: Participant, b: Participant) => a.puuid == b.puuid && a.gameID == b.gameID)
+
         // const [participants, err3] = await matchListFactory.execute();
 
         //participantsList = _.uniq(participantsList, 'gameID')
         let games: Dictionary<Participant[]>
         games = _.groupBy(participantsList, (p: Participant) => p.gameID)
-        participantsList.sort((p1, p2) => {
-            return Number(p2.startTime) - Number(p1.startTime)
-        })
         games = Object.keys(games).sort().reduce(
             (obj: any, key) => {
                 obj[key] = games[key];
@@ -66,3 +65,4 @@ export default class ParticipantAPI {
      */
 
 }
+function uniqWith(arr: any[], fn: any): any { arr.filter((element, index) => arr.findIndex((step) => fn(element, step)) === index) }
